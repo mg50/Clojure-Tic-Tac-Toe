@@ -55,10 +55,10 @@
                                                 row)))
                         matrix)))
 
-(defn next-board [board kwd [newx newy]]
+(defn next-board [board player [newx newy]]
   (when (= empty-cell (pick-cell board newx newy))
-    (mapmatrix board (fn [el x y]
+    (mapmatrix board (fn [cell-val x y]
                        (if (= [newx newy] [x y])
-                         kwd
-                         el)))))
+                         player
+                         cell-val)))))
 

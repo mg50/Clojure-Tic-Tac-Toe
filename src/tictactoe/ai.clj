@@ -2,9 +2,6 @@
   (:use tictactoe.tictactoe)
   (:gen-class))
 
-(defn moves-remaining? [board]
-  (->> board flatten (some zero?)))
-
 (defn analyze-lines
   ([line line-type line-num f] ;If f is truthy on line, return coords (based on line type) 
     (if-let [result (f line)]

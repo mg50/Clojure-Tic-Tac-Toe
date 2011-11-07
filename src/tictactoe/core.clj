@@ -45,9 +45,8 @@
                                  (new-game! game))
         :else (do
                 (swap! *current-player* other-player)
-                (if (= @*current-player* @*ai*)
-                  (recur game (ai-recommended-move @*ai* @*board*))
-                  (.repaint game)))))))
+                (when (= @*current-player* @*ai*)
+                  (recur game (ai-recommended-move @*ai* @*board*))))))))
 
 
 (defn -main []

@@ -1,7 +1,7 @@
 (ns tictactoe.game
   (:use tictactoe.tictactoe)
-  (:import (java.awt Color Dimension BorderLayout Font)
-           (javax.swing JPanel JFrame JOptionPane JButton JLabel)
+  (:import (java.awt Color Dimension Font)
+           (javax.swing JPanel JFrame JOptionPane)
            (java.awt.event MouseListener MouseEvent)))
 
 (def background-color Color/white)
@@ -81,6 +81,8 @@
         (.drawLine cell-size 0 cell-size cell-size*3)
         (.drawLine cell-size*2 0 cell-size*2 cell-size*3))
       (mapmatrix @board-atom #(paint-tile g [%2 %3] %1)))
+    (getPreferredSize []
+      (Dimension. (* 3 cell-size) (* 3 cell-size)))
     (mouseClicked [e] 
       (let [mouse-x (.getX e),
             x (-> mouse-x (/ cell-size) Math/floor int),
@@ -112,6 +114,5 @@
       (.setResizable false)
       (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
       (.pack)
-      (.setSize 300 320)
       (.setVisible true))
     panel))
