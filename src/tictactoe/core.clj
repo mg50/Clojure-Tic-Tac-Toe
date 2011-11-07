@@ -34,7 +34,7 @@
 	  (when-let [next-board (next-board @*board* @*current-player* [x y])]
 	    (reset! *board* next-board)
       (.repaint game)
-	    (cond
+      (cond
         (player-won? @*board* @*current-player*) (do
                                                    (reset! *game-running* false)
                                                    (victory-message game @*current-player*)
