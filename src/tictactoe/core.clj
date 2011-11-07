@@ -31,8 +31,8 @@
 
 (defn move! [game [x y]]
   (when @*game-running*
-	  (when-let [next-board (next-board @*board* @*current-player* [x y])]
-	    (reset! *board* next-board)
+    (when-let [next-board (next-board @*board* @*current-player* [x y])]
+      (reset! *board* next-board)
       (.repaint game)
       (cond
         (player-won? @*board* @*current-player*) (do
