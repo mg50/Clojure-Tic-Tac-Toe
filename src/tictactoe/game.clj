@@ -98,17 +98,17 @@
   (let [frame (JFrame. "Tic-Tac-Toe")
         panel (game-panel board-atom move-callback!)]
     (.addMouseListener panel panel)
-	  (create-option-dialog frame start-new-game-dialog 
-	                        "Start a new game?"
+    (create-option-dialog frame start-new-game-dialog 
+                          "Start a new game?"
+                          ["Yes" "No"])
+	  
+    (create-option-dialog frame play-vs-ai-dialog
+                          "Play vs. AI?"
 	                        ["Yes" "No"])
 	  
-	  (create-option-dialog frame play-vs-ai-dialog
-	                        "Play vs. AI?"
-	                        ["Yes" "No"])
-	  
-	  (create-option-dialog frame which-player-dialog
-	                        "Select side to play as:"
-	                        ["X" "O"])
+    (create-option-dialog frame which-player-dialog
+                          "Select side to play as:"
+                          ["X" "O"])
     (doto frame
       (.add panel)
       (.setResizable false)
