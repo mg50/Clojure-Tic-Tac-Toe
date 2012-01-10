@@ -2,7 +2,8 @@
   (:use tictactoe.core
         [tictactoe.ui :only [create-game start-new-game-dialog play-vs-ai-dialog which-player-dialog 
                              victory-message]]
-        [tictactoe.ai :only [ai-recommended-move]]))
+        [tictactoe.ai :only [ai-recommended-move]])
+  (:gen-class))
 
 
 (def *board* (atom nil))
