@@ -1,54 +1,75 @@
-(ns tictactoe.core
-  (:use tictactoe.tictactoe
-        tictactoe.game
-        tictactoe.ai)
-  (:gen-class))
+(ns tictactoe.core)
 
+(def empty-board [[0 0 0]
+                  [0 0 0]
+                  [0 0 0]])
 
-(def *board* (atom nil))
-(def *current-player* (atom nil))
-(def *ai* (atom nil))
-(def *game-running* (atom false))
-(def *first-game* (atom true))
+(def p-x :x)
+(def p-o :o)
+(def empty-cell 0)
 
-(declare move!)
-(defn new-game! [game]
-  (when (or @*first-game* 
-            (zero? (start-new-game-dialog)))
-    (reset! *first-game* false)
-    (reset! *board* board)
-    (reset! *current-player* p-x)
-    (reset! *game-running* true)
-    (if (zero? (play-vs-ai-dialog))
-      (reset! *ai* (if (zero? (which-player-dialog))
-                     p-o
-                     p-x))
-      (reset! *ai* nil))
-    (when (= p-x @*ai*) ;Make first move on behalf of AI if AI is X
-      (move! game (ai-recommended-move @*ai* @*board*)))
-    (.repaint game)))
+(defn cell-empty? [board x y]
+  (= empty-cell (get-in board [y x])))
 
+(defn other-player [p]
+  (cond
+    (= p p-x) p-o
+    (= p p-o) p-x))
 
-(defn move! [game [x y]]
-  (when @*game-running*
-    (when-let [next-board (next-board @*board* @*current-player* [x y])]
-      (reset! *board* next-board)
-      (.repaint game)
-      (cond
-        (player-won? @*board* @*current-player*) (do
-                                                   (reset! *game-running* false)
-                                                   (victory-message game @*current-player*)
-                                                   (new-game! game))
-        (board-full? @*board*) (do
-                                 (reset! *game-running* false)
-                                 (victory-message game)
-                                 (new-game! game))
-        :else (do
-                (swap! *current-player* other-player)
-                (when (= @*current-player* @*ai*)
-                  (recur game (ai-recommended-move @*ai* @*board*))))))))
+(defn rows [board] 
+  "Returns a board's rows as vectors."
+  board)
 
+(defn columns [board]
+  "Return a board's columns as vectors."
+  (apply map vector board))
 
-(defn -main []
-  (let [game (create-game *board* move!)]
-    (new-game! game)))
+(defn diagonals [board]
+  "Return a board's diagonals as vectors. Note: the top-left-to-bottom-right diagonal is always first."
+  (let [left-diag (map-indexed #(%2 %1) board),
+        right-diag (map-indexed #(%2 (- 2 %1)) board)]
+    [left-diag right-diag]))
+
+(defn lines [board]
+  (concat (rows board) (columns board) (diagonals board)))
+
+(defn player-won? [board player]
+  "Checks to see if a given player has a three-in-a-row on a board."
+  (let [lines (lines board),
+        winning-vector (repeat 3 player)]
+    (if (some #(= winning-vector %) lines)
+      true
+      false)))
+
+(defn board-full? [board]
+  (if ((set (flatten board)) empty-cell)
+    false
+    true))
+
+(defn pick-cell 
+  "A board is a vector of row vectors; thus we access a cell with coordinates (x, y) via (get-in board [y x].
+  This is a convenience method that allows us to more naturally access a cell with [x y]."
+  ([board x y]
+    (get-in board [y x]))
+  ([board [x y]]
+    (pick-cell board x y)))
+
+(defn mapmatrix [matrix f]
+  "Takes a two-dimensional vector and maps it to a new two-dimensional vector based on the coordinates of
+  each cell together with the value of that cell. Thus, f takes three arguments: the cell-value, x and y.
+  Borrowed from Alex Yukashev's guide to writing Tetris in Clojure."
+  (into [] (map-indexed (fn [y row]
+                          (into [] (map-indexed (fn [x el]
+                                                  (f el x y))
+                                                row)))
+                        matrix)))
+
+(defn next-board [board player [newx newy]]
+  "Takes a board, player and move coordinate and tries to return a new board with the player having
+  moved at that coordinate."
+  (when (= empty-cell (pick-cell board newx newy))
+    (mapmatrix board (fn [cell-val x y]
+                       (if (= [newx newy] [x y])
+                         player
+                         cell-val)))))
+

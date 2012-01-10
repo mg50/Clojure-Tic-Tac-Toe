@@ -4,4 +4,4 @@
                   [org.clojure/clojure.contrib "1.2.0"]
                   [deflayout "0.9.0-SNAPSHOT"]]]
   :dev-dependencies [[swank-clojure "1.2.1"]]
-  :main tictactoe.core)
+  :main tictactoe.main)
