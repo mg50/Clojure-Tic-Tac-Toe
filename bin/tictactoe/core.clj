@@ -64,12 +64,8 @@
                                                 row)))
                         matrix)))
 
-(defn next-board [board player [newx newy]]
+(defn next-board [board player [new-x new-y]]
   "Takes a board, player and move coordinate and tries to return a new board with the player having
   moved at that coordinate."
-  (when (= empty-cell (pick-cell board newx newy))
-    (mapmatrix board (fn [cell-val x y]
-                       (if (= [newx newy] [x y])
-                         player
-                         cell-val)))))
-
+  (when (= empty-cell (pick-cell board new-x new-y))
+    (assoc-in board [new-y new-x] player)))
