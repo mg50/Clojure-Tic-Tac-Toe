@@ -47,7 +47,7 @@
     true))
 
 (defn pick-cell 
-  "A board is a vector of row vectors; thus we access a cell with coordinates (x, y) via (get-in board [y x].
+  "A board is a vector of row vectors; thus we access a cell with coordinates (x, y) via (get-in board [y x]).
   This is a convenience method that allows us to more naturally access a cell with [x y]."
   ([board x y]
     (get-in board [y x]))
