@@ -109,7 +109,7 @@
 	  
     (create-option-dialog frame play-vs-ai-dialog
                           "Play vs. AI?"
-	                        ["Yes" "No"])
+                          ["Yes" "No"])
 	  
     (create-option-dialog frame which-player-dialog
                           "Select side to play as:"
