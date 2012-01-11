@@ -58,7 +58,7 @@
 (defn random-empty-cell [board]
   "Returns coordinates of any non-empty square at random."
   (let [coords (for [i (range 3), j (range 3)] 
-                 (pick-cell i j)),
+                 [i j]),
         empty-coords (filter #(= empty-cell (pick-cell board %)) coords)]
     (when-not (empty? empty-coords)
       (rand-nth empty-coords))))
