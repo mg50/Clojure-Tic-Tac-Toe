@@ -44,19 +44,19 @@
                            (.indexOf (vec line) empty-cell)))))
 
 (defn center [board]
-  "Returns coordinates of the center cell if not empty."
+  "Returns coordinates of the center cell if empty."
   (when (cell-empty? board 1 1)
     [1 1]))
 
 (defn random-empty-corner [board]
-  "Returns coordinates of a non-empty corner square at random."
+  "Returns coordinates of an empty corner square at random if one exists."
   (let [coords [[0 0], [0 2], [2 0], [2 2]]
         empty-coords (filter #(= empty-cell (pick-cell board %)) coords)]
     (when-not (empty? empty-coords)
       (rand-nth empty-coords))))
 
 (defn random-empty-cell [board]
-  "Returns coordinates of any non-empty square at random."
+  "Returns coordinates of any empty square at random if one exists."
   (let [coords (for [i (range 3), j (range 3)] 
                  [i j]),
         empty-coords (filter #(= empty-cell (pick-cell board %)) coords)]
