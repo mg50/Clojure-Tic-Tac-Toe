@@ -11,6 +11,7 @@
   (let [game (mock/create-game :o game-count move!)]
     
     (new-game! game)
+    (is (= (reduce + @(:win-record game)) (:game-count game)))
     (is (zero? (@(:win-record game) 0)))))
 
 (deftest player-o-unbeatable
@@ -18,4 +19,5 @@
   (let [game (mock/create-game :x game-count move!)]
     
     (new-game! game)
+    (is (= (reduce + @(:win-record game)) (:game-count game)))    
     (is (zero? (@(:win-record game) 0)))))
