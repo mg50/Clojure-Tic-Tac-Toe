@@ -1,4 +1,4 @@
-(defproject tictactoe "1.0.0-SNAPSHOT"
+(defproject tictactoe "2.0.0-SNAPSHOT"
   :description "Small Tic-Tac-Toe project"
   :dependencies [[org.clojure/clojure "1.2.1"]]
   :dev-dependencies [[swank-clojure "1.2.1"]]
