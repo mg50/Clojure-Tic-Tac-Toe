@@ -8,6 +8,7 @@
 
 
 (defmacro defstrategy [strat-name [player board] & tactics]
+  "A strategy is a prioritized list of tactics; it returns a random element of the first non-empty tactic result."
   (let [tactics* (map (fn [t]
                         `(let [result# ~t] (when-not (empty? result#) result#)))
                       tactics)]
@@ -51,6 +52,7 @@
 
 
 (defn lines-forkable [l1 l2 board player]
+  "Determines whether two lines on the board are available for a fork."
   (when-let [intersect (some (set l1) l2)]
     (when (and
             (cell-empty? board intersect)
