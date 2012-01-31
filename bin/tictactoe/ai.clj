@@ -1,6 +1,5 @@
 (ns tictactoe.ai
-  (:use tictactoe.core 
-        [tictactoe.util :only [or-non-empty]]))
+  (:use tictactoe.core))
 
 (defmacro deftactic [tactic-name args & body]
   "A tactic is a function which returns a (possibly empty) group of coordinates for valid moves."
