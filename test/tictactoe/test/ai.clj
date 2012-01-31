@@ -2,7 +2,7 @@
   (:use tictactoe.core tictactoe.ai clojure.test))
 
 (defmacro set-function [& fn-names]
-  "Takes one or more tactic `t` and returns a corresponding function `t*` which returns a hash set of moves."
+  "Takes tactic(s) `t` and returns a corresponding function `t*` which returns a hash set of moves."
   (letfn [(make-set-function [f]
                              (let [f* (symbol (str f "*"))]
                                `(defn- ~f* [& args#]

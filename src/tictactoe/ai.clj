@@ -36,7 +36,7 @@
 	(for [l1 line-coords, l2 line-coords :when (< (.indexOf line-coords l1)
 	                                              (.indexOf line-coords l2))]
 	  (lines-forkable l1 l2 board player)))
-  
+
 (deftactic empty-cells [board cells]
   (filter #(cell-empty? board %) cells))
 

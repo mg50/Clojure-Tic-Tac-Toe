@@ -6,32 +6,22 @@
 
 (def game-count 500)
 
-(defstrategy easy [player board]
+(defstrategy easy [player board] ;Plays a move randomly
   (empty-cells board all-coords))
 
-(defstrategy medium [player board]
+(defstrategy medium [player board] ;Plays a move randomly (though tries to block losses)
   (winning-moves board (other-player player))
   (empty-cells board all-coords))
 
 (def hard ai-recommended-move)
 
-(def strategies [easy medium hard])
-
-(deftest player-x-unbeatable
+(deftest ai-unbeatable
   "Plays a specified number of games against an AI playing X; the AI should never lose."
   
   (doall
-    (for [strat strategies]
-      (let [game (mock/create-game :o game-count move! strat)]
+    (for [strategy [easy medium hard], player [p-x p-o]]
+      (let [game (mock/create-game player game-count move! strategy)]
         (new-game! game)
         (is (= (reduce + @(:win-record game)) (:game-count game)))
         (is (zero? (@(:win-record game) 0)))))))
   
-
-(deftest player-o-unbeatable
-  "Plays a specified number of games against an AI playing X; the AI should never lose."      
-  (for [strat strategies]
-    (let [game (mock/create-game :x game-count move! strat)]
-      (new-game! game)
-      (is (= (reduce + @(:win-record game)) (:game-count game)))
-      (is (zero? (@(:win-record game) 0))))))
