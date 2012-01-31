@@ -38,11 +38,11 @@
   (print "Please enter your move (or 'help' for options): ")
   (flush)
   (let [input (read-line)]
-	  (if (= input "help")
-	    (do
-	      (alert "Type in one of the following: top left, top middle, top right, middle left, " 
+    (if (= input "help")
+      (do
+        (alert "Type in one of the following: top left, top middle, top right, middle left, " 
                "center, middle right, bottom left, bottom middle, bottom right.")
-	      (recur))
+        (recur))
      (if-let [move (coords input)]
        move
        (recur)))))

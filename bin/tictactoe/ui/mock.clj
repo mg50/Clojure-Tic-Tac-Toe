@@ -1,7 +1,9 @@
 (ns tictactoe.ui.mock
   (:use tictactoe.core tictactoe.ui.base))
 
-(defrecord MockGame [board game-running ai current-player first-game player game-count win-record move-callback]
+
+(defrecord MockGame [board game-running ai current-player first-game player game-count win-record 
+                     move-callback strategy]
   UI
   (update-ui [this])
   (victory-message [this victor]
@@ -15,9 +17,9 @@
   (play-vs-ai? [this] true)
   (which-player [this] player)
   (prompt-move [this] ;Play a move at random
-    (let [coords (filter #(cell-empty? @board %) all-coords)]
-      (move-callback this (rand-nth coords)))))
+    (let [move (strategy player @board)]
+      (move-callback this move))))
   
-  (defn create-game [player game-count move-callback]
+  (defn create-game [player game-count move-callback strategy]
     (MockGame. (atom nil) (atom nil) (atom nil) (atom nil) (atom nil) player 
-               game-count (atom [0 0 0]) move-callback))
+               game-count (atom [0 0 0]) move-callback strategy))

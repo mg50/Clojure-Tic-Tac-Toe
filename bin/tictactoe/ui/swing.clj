@@ -33,7 +33,7 @@
        ~(first option-values)
        ~(second option-values))))
 
-(create-option-dialog start-new-game-dialog 
+(create-option-dialog start-new-game-dialog
                       "Start a new game?"
                       ["Yes" "No"]
                       [true false])
@@ -90,10 +90,8 @@
         (Dimension. cell-size*3 cell-size*3))
       (mouseClicked [e] 
         (let [get-ordinate #(-> % (/ cell-size) Math/floor int)
-              mouse-x (.getX e),
-              x (get-ordinate mouse-x)
-              mouse-y (.getY e),
-              y (get-ordinate mouse-y)]
+              x (get-ordinate (.getX e))
+              y (get-ordinate (.getY e))]
           (move-callback! game [x y])))
       (mousePressed [e])
       (mouseReleased [e])
