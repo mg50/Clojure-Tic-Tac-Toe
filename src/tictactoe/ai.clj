@@ -51,13 +51,13 @@
 
 
 (defn lines-forkable [l1 l2 board player]
-	(when-let [intersect (some (set l1) l2)]
-	  (when (and
-	          (cell-empty? board intersect)
-	          (= {player 1, empty-cell 2}
-	             (line-freqs board l1)
-	             (line-freqs board l2)))
-	    intersect)))
+  (when-let [intersect (some (set l1) l2)]
+    (when (and
+            (cell-empty? board intersect)
+            (= {player 1, empty-cell 2}
+               (line-freqs board l1)
+               (line-freqs board l2)))
+      intersect)))
 
 (defn move-leads-to-fork? [board player move]
   "Looks ahead one step to see if a given move can lead to the opponent setting up a fork."
